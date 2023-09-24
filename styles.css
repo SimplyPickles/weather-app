@@ -11,11 +11,15 @@
 }
 
 html {
-    background: linear-gradient(135deg, #A35ADD, #4947AA);
+    background: linear-gradient(135deg, #375795, #191775);
     overflow-x: hidden;
 
     height: 100%;
     width: 100%;
+}
+
+div {
+    background-size: 1%;
 }
 
 img {
@@ -110,6 +114,7 @@ img {
 .smallertxt {
     opacity: 0.45;
     font-size: 2.25vw;
+
     margin-top: -2.5vw;
 }
 
