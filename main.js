@@ -17,7 +17,7 @@ const conditions = document.getElementById("conditionstext");
 const humidity = document.getElementById("humiditytext");
 
 let data = {
-    "location": "Nutley, New Jersey",
+    "location": "San Francisco",
     "temperature": 58,
     "feelslike": 59,
     "conditions1": "Sunny",
