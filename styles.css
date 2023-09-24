@@ -1,0 +1,119 @@
+@font-face {
+    font-family: bold;
+    src: url(font/bold.ttf);
+}
+
+* {
+    color: white;
+    font-family: bold;
+    text-align: center;
+    text-shadow: 0 0 25px black;
+}
+
+html {
+    background: linear-gradient(135deg, #A35ADD, #4947AA);
+    overflow-x: hidden;
+
+    height: 100%;
+    width: 100%;
+}
+
+img {
+    display: block;
+
+    width: 45vw;
+    
+    margin-top: 6vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#mapbox {
+    background-color: black;
+    border-radius: 25px;
+
+    margin: auto;
+    width: 95vw;
+    height: 20vh;
+}
+
+#location {
+    font-size: 8vw;
+}
+
+#temperature {
+    font-size: 14vw;
+    
+    margin-top: -8vw;
+    margin-left: -30vw;
+}
+
+#feelslike {
+    font-size: 3.5vw;
+    
+    margin-top: -14vw;
+    margin-left: -34.2vw;
+}
+
+#rainchance {
+    font-size: 3.5vw;
+}
+
+#dewpoint {
+    font-size: 2.5vw;
+
+    margin-top: -2.5vw;
+}
+
+#visibility {
+    font-size: 2.5vw;
+
+    margin-top: -1.8vw;
+}
+
+.conditions {
+    font-size: 3.5vw;
+    text-align: left;
+    
+    margin-top: -20vw;
+    margin-left: 49vw;
+    margin-bottom: 19vw;
+}
+
+.lowerdetails {
+    position: absolute; 
+    
+    left: 0; 
+    right: 0; 
+
+    margin-top: -12.5vw;
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+#wind {
+    margin-left: -50vw;
+}
+
+#conditions {
+    
+}
+
+#humidity {
+    margin-left: 50vw;
+}
+
+.smalltxt {
+    font-size: 3vw;
+}
+
+.smallertxt {
+    opacity: 0.45;
+    font-size: 2.25vw;
+    margin-top: -2.5vw;
+}
+
+.smallimg {
+    width: 15vw;
+    height: 15vw;
+}
