@@ -3,122 +3,238 @@
     src: url(font/bold.ttf);
 }
 
-* {
+@font-face {
+    font-family: thin;
+    src: url(font/regular.ttf);
+}
+
+html, body {
+    background: -webkit-linear-gradient(#2C3753, #212236);
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+}
+
+hr {
+    border-color: white;
+    width: 30vw;
+    height: 4px;
+    border-radius: 8px;
+    background: white;
+
+    margin-left: 4vw;
+    margin-top: -2.5vw;
+    margin-bottom: 3.5vw;
+}
+
+button {
     color: white;
+    background-color: rgba(255, 255, 255, 0.15);
+    font-family: thin;
+    
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+h3 {
+    position: absolute;
+    color: white;
+    font-size: 3vw;
+    font-family: bold;
+
+    width: 50vw;
+    margin-left: 30vw;
+}
+
+#rainbutton {
+    
+}
+
+#tempbutton {
+    
+}
+
+#uvbar {
+    position: absolute; 
+    left: 12.5%;
+    top: 1.5%;
+
+    background: -webkit-linear-gradient(0deg, #9CFF79, #FF7070);
+    
+    border-radius: 25px;
+    border-width: 0.2vh;
+    border-style: solid;
+    border-color: white;
+
+    width: 75vw;
+    height: 0.5vh;
+    margin: auto;
+}
+
+#uv {
+    color: white;
+    
     font-family: bold;
     text-align: center;
-    text-shadow: 0 0 25px black;
-}
-
-html {
-    background: linear-gradient(135deg, #375795, #191775);
-    overflow-x: hidden;
-
-    height: 100%;
-    width: 100%;
-}
-
-div {
-    background-size: 1%;
-}
-
-img {
-    display: block;
-
-    width: 45vw;
+    font-size: 5vw;
     
-    margin-top: 6vh;
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 4%;
 }
 
-#mapbox {
-    background-color: black;
-    border-radius: 25px;
-
-    margin: auto;
-    width: 95vw;
-    height: 20vh;
-}
-
-#location {
-    font-size: 8vw;
-}
-
-#temperature {
-    font-size: 14vw;
+#widgetsbox {
+    position: absolute;
     
-    margin-top: -8vw;
-    margin-left: -30vw;
-}
-
-#feelslike {
-    font-size: 3.5vw;
+    top: 7.4%;
+    right: -1%;
     
-    margin-top: -14vw;
-    margin-left: -34.2vw;
+    width: 20%;
+    height: 25%;
 }
 
-#rainchance {
-    font-size: 3.5vw;
-}
 
-#dewpoint {
-    font-size: 2.5vw;
-
-    margin-top: -2.5vw;
-}
-
-#visibility {
-    font-size: 2.5vw;
-
-    margin-top: -1.8vw;
-}
-
-.conditions {
-    font-size: 3.5vw;
-    text-align: left;
-    
-    margin-top: -20vw;
-    margin-left: 49vw;
-    margin-bottom: 19vw;
-}
-
-.lowerdetails {
-    position: absolute; 
-    
-    left: 0; 
-    right: 0; 
-
-    margin-top: -12.5vw;
-    margin-left: auto; 
-    margin-right: auto; 
-}
-
-#wind {
-    margin-left: -50vw;
-}
-
-#conditions {
-    
-}
+#conditions {}
 
 #humidity {
-    margin-left: 50vw;
+    margin-top: 135%;
+}
+
+
+#wind {
+    margin-top: 270%;
+}
+
+.widget {
+    position: absolute;
+        
+    width: 100%;
+    height: 55%;
+}
+
+.widgetimage {
+    width: 100%;
+    align-self: center;
 }
 
 .smalltxt {
-    font-size: 3vw;
+    color: white;
+    
+    font-family: bold;
+    text-align: center;
+    font-size: 3.5vw;
+
+    margin-top: -12%;
 }
 
 .smallertxt {
+    color: white;
     opacity: 0.45;
-    font-size: 2.25vw;
 
-    margin-top: -2.5vw;
+    font-family: bold;
+    text-align: center;
+    font-size: 2.8vw;
+    
+    margin-top: -16.5%;
 }
 
-.smallimg {
-    width: 15vw;
-    height: 15vw;
+#tempbox {
+    position: absolute;
+    
+    top: 10%;
+    left: 0%;
+    
+    width: 20%;
+    height: 25%;
+}
+
+#temp {
+    color: white;
+
+    font-family: bold;
+    font-size: 12vw;
+
+    margin-top: -6vw;
+    margin-left: 4vw;
+}
+
+#temphigh {
+    margin-top: -23vw;
+    margin-left: 29.5vw;
+}
+
+#templow {
+    margin-top: -20vw;
+    margin-left: 29.5vw;
+}
+
+#feelslike {
+    color: white;
+    opacity: 0.45;
+
+    font-family: bold;
+    font-size: 4vw;
+
+    width: 50vw;
+    margin-top: -12vw;
+    margin-left: 4vw;
+}
+
+.belowtemp {
+    color: white;
+
+    font-family: bold;
+    font-size: 4vw;
+
+    width: 50vw;
+    margin-top: -2vw;
+    margin-left: 4vw;
+    margin-bottom: -2vw;
+}
+
+#mainimg {
+    width: 35vw;
+}
+
+#tempbox {
+    position: absolute;
+    
+    top: 10%;
+    left: 0%;
+    
+    width: 20%;
+    height: 25%;
+}
+
+#graph {
+    position: absolute;
+
+    width: 50%;
+
+    left: 25%;
+    bottom: 26%;
+}
+
+#graphbuttons { }
+
+#mapbox {
+    position: absolute;
+    
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.3);
+
+    left: 0; 
+    right: 0;
+    bottom: 0;
+    
+    margin-left: auto; 
+    margin-right: auto;
+
+    width: 95vw;
+    height: 25vw;
+
+    background-color: rgba(255, 255, 255, 0.15);
 }

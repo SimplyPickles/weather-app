@@ -1,49 +1,44 @@
-const loc = document.getElementById("location");
+// Get element references
+const uvindex = document.getElementById("uv");
 
-const temperature = document.getElementById("temperature");
+const temperature = document.getElementById("temp");
 const feelslike = document.getElementById("feelslike");
 
-const conditions1 = document.getElementById("conditions1");
-const conditions2 = document.getElementById("conditions2");
-
-const mapbox = document.getElementById("mapbox");
-
-const rainchance = document.getElementById("rainchance");
-const dewpoint = document.getElementById("dewpoint");
 const visibility = document.getElementById("visibility");
+const dewpoint = document.getElementById("dewpoint");
 
-const wind = document.getElementById("windtext");
-const conditions = document.getElementById("conditionstext");
-const humidity = document.getElementById("humiditytext");
+const conditions = document.getElementById("conditiontext");
+const humidity = document.getElementById("humidypercent");
+const windspeed = document.getElementById("windspeed");
 
-let data = {
-    "location": "San Francisco",
-    "temperature": 58,
-    "feelslike": 59,
-    "conditions1": "Sunny",
-    "conditions2": "Moderate Winds",
-    "rainchance": 64,
-    "dewpoint": 56,
-    "visibility": 6,
-    "wind": 17.3,
-    "conditions": "Sunny",
-    "humidity": 88
+// Get user location
+let loc = [40.7648, -73.9808];
+
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        loc = [position.coords.latitude, position.coords.longitude];
+    });
 }
 
-let mainLoop = setInterval(function () {
-    loc.innerHTML = data.location;
+let url = `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=relativehumidity_2m,dewpoint_2m,visibility,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_probability_max,windspeed_10m_max,winddirection_10m_dominant&current_weather=true&timezone=auto&past_days=1`;
+let xmlHttp = new XMLHttpRequest();
+xmlHttp.open("GET", url, false);
+xmlHttp.send(null);
+let response = JSON.parse(xmlHttp.responseText);
 
-    temperature.innerHTML = `${data.temperature}°F`;
-    feelslike.innerHTML = `Feels like ${data.feelslike}°F`;
-    
-    conditions1.innerHTML = data.conditions1;
-    conditions2.innerHTML = data.conditions2;
-    
-    rainchance.innerHTML = `Chance to Rain: ${data.rainchance}%`;
-    dewpoint.innerHTML = `Dew Point: ${data.dewpoint}°F`;
-    visibility.innerHTML = `Visibility: ${data.visibility}km`;
-    
-    wind.innerHTML = `${data.wind} mph`;
-    conditions.innerHTML = data.conditions1;
-    humidity.innerHTML = `${data.humidity}%`;
-}, 1);
+// Get timestamp
+let timestamp = new Date().toISOString().split(":")[0];
+let timeIndex = response.hourly.time.indexOf((timestamp + ":00"));
+
+// Change text
+uvindex.innerHTML = `UV Index: ${response.hourly.uv_index[timeIndex]}`;
+
+temperature.innerHTML = `${response.current_weather.temperature}°C`;
+//feelslike.innerHTML = `Feels like ${((apparent_temperature_max + apparent_temperature_min) / 2)}°C`;
+
+visibility.innerHTML = `Visibility: ${response.hourly.visibility[timeIndex] / 1000} km`;
+dewpoint.innerHTML = `Dew Point: ${response.hourly.dewpoint_2m[timeIndex]}°C`;
+
+conditions.innerHTML = `${response.daily.weathercode[0]}`;
+humidity.innerHTML = `${response.hourly.relativehumidity_2m[timeIndex]}%`;
+windspeed.innerHTML = `${response.current_weather.windspeed} km/h`;
