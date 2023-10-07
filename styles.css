@@ -68,7 +68,7 @@ img {
 }
 
 .img2 {
-    width: 13vw;
+    width: 11vw;
 }
 
 #locationbox {
@@ -211,33 +211,33 @@ img {
 
 #raingraph {
     top: 66vw;
-    left: 3%;
+    left: 3vw;
     
-    width: 61%;
-    height: 40%;
+    width: 54.25vw;
+    height: 44vw;
 }
 
 #rainpercent {
     color: white;
     font-size: 4vw;
 
-    margin-top: 39vw;
+    margin-top: 36vw;
 }
 
 #rainfall {
     top: 66vw;
-    left: 68%;
+    left: 61vw;
     
-    width: 28%;
-    height: 18%;
+    width: 25.5vw;
+    height: 20vw;
 }
 
-#pressure {
-    top: 91.5vw;
-    left: 68%;
+#visibility {
+    top: 90vw;
+    left: 61vw;
     
-    width: 28%;
-    height: 18%;
+    width: 25.5vw;
+    height: 20vw;
 }
 
 .frostedglass {
