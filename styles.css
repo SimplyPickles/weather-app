@@ -1,6 +1,6 @@
 @keyframes slideUp {
     0% {
-        transform: translateY(-100%);
+        transform: translateY(-200%);
         opacity: 0;
     }
 
@@ -11,7 +11,7 @@
 }
 
 * {
-    transition: 0.15s;
+    transition: 0.05s;
 }
 
 @font-face {
