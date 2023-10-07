@@ -1,3 +1,4 @@
+/*
 // Get element references
 const uvindex = document.getElementById("uv");
 
@@ -42,3 +43,4 @@ dewpoint.innerHTML = `Dew Point: ${response.hourly.dewpoint_2m[timeIndex]}°C`;
 conditions.innerHTML = `${response.daily.weathercode[0]}`;
 humidity.innerHTML = `${response.hourly.relativehumidity_2m[timeIndex]}%`;
 windspeed.innerHTML = `${response.current_weather.windspeed} km/h`;
+*/
