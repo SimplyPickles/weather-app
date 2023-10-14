@@ -116,36 +116,60 @@ const humidity = document.getElementById("humiditytxt");
 const windspeed = document.getElementById("windspeedtxt");
 
 // Get user location
-let loc = [0, 0];
-
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
-        lbox.style.opacity = 0;
+        let loc = [position.coords.latitude, position.coords.longitude];
+        loadMap(loc);
 
-        loc = [position.coords.latitude, position.coords.longitude];
-        console.log(loc);
+        map = L.map('mapbox').setView(loc, 13);
 
-        let url = `https://api.open-meteo.com/v1/forecast?latitude=${loc[0]}&longitude=${loc[1]}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,rain,snowfall,weathercode,visibility,windspeed_10m,winddirection_10m,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max&current_weather=true&timezone=auto`;
-        let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", url, false);
-        xmlHttp.send(null);
-        let response = JSON.parse(xmlHttp.responseText);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-        // Get timestamp
-        let timestamp = new Date().toISOString().split(":")[0];
-        let timeIndex = response.hourly.time.indexOf((timestamp + ":00"));
-        
-        // Change text
-        uvindex.innerHTML = `UV Index: ${response.hourly.uv_index[timeIndex]}`;
+        let marker = L.marker(loc).addTo(map);
+        map.on('click', function(e) {
+            if (marker) map.removeLayer(marker);
+            
+            console.log(e.latlng);
+            marker = L.marker(e.latlng).addTo(map);
 
-        temperature.innerHTML = `${response.current_weather.temperature}°C`;
-        feelslike.innerHTML = `Feels like ${response.hourly.apparent_temperature[timeIndex]}°C`;
-
-        visibility.innerHTML = `${response.hourly.visibility[timeIndex] / 1000} km`;
-        //dewpoint.innerHTML = `Dew Point: ${response.hourly.dewpoint_2m[timeIndex]}°C`;
-        console.log(codes[response.daily.weathercode[0]]);
-        conditions.innerHTML = `${codes[response.daily.weathercode[0].toString()]}`;
-        humidity.innerHTML = `${response.hourly.relativehumidity_2m[timeIndex]}%`;
-        windspeed.innerHTML = `${response.current_weather.windspeed} km/h`;
+            loadMap([e.latlng.lat, e.latlng.lng]);
+        });
     });
+}
+
+function loadMap(loc) {
+    let url = `https://api.open-meteo.com/v1/forecast?latitude=${loc[0]}&longitude=${loc[1]}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,rain,snowfall,weathercode,visibility,windspeed_10m,winddirection_10m,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max&current_weather=true&timezone=auto`;
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    let response = JSON.parse(xmlHttp.responseText);
+
+    // Get timestamp
+    let timestamp = new Date().toISOString().split(":")[0];
+    let timeIndex = response.hourly.time.indexOf((timestamp + ":00"));
+    
+    // Change text
+    uvindex.innerHTML = `UV Index: ${response.hourly.uv_index[timeIndex]}`;
+
+    temperature.innerHTML = `${response.current_weather.temperature}°C`;
+    feelslike.innerHTML = `Feels like ${response.hourly.apparent_temperature[timeIndex]}°C`;
+
+    visibility.innerHTML = `${response.hourly.visibility[timeIndex] / 1000} km`;
+    //dewpoint.innerHTML = `Dew Point: ${response.hourly.dewpoint_2m[timeIndex]}°C`;
+    console.log(codes[response.daily.weathercode[0]]);
+    conditions.innerHTML = `${codes[response.daily.weathercode[0].toString()]}`;
+    humidity.innerHTML = `${response.hourly.relativehumidity_2m[timeIndex]}%`;
+    windspeed.innerHTML = `${response.current_weather.windspeed} km/h`;
+}
+
+function openmap() {
+    document.getElementById("mapbox").style.display = "inline";
+    document.getElementById("widgetbox").style.display = "none";
+}
+
+function opendaily() {
+    document.getElementById("mapbox").style.display = "none";
+    document.getElementById("widgetbox").style.display = "inline";
 }

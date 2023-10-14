@@ -84,12 +84,13 @@ img {
     border-radius: 0;
 
     animation: none;
+    pointer-events: none;
 }
 
 #locationbox {
     width: 50vw;
     left: 25vw;
-    height: 12;
+    height: 12.5vw;
 
     top: 2.5vw;
     margin: auto;
@@ -133,7 +134,7 @@ img {
 }
 
 #navbar {
-    width: 92.5vw;
+    width: 89.5vw;
     height: 2.8vh;
 
     left: 5vw;
@@ -143,8 +144,18 @@ img {
     justify-content: center;
 }
 
+#mapbox {
+    display: none;
+
+    width: 89.5vw;
+    height: 43vh;
+
+    left: 5vw;
+    top: 54.8vh;
+}
+
 #widgetbox {
-    width: 92.5vw;
+    width: 89.5vw;
     height: 43vh;
 
     left: 5vw;
@@ -176,6 +187,10 @@ img {
     margin-left: -79vw;
 }
 
+#aqibox {
+    width: 84vw;
+}
+
 .uvdot {
     font-size: 4.25vw;
 
@@ -185,6 +200,7 @@ img {
 
 #uvbox {
     top: 18vw;
+    width: 84vw;
 }
 
 #windbox {
@@ -229,7 +245,7 @@ img {
     top: 66vw;
     left: 3vw;
     
-    width: 54.25vw;
+    width: 54vw;
     height: 44vw;
 }
 
@@ -244,7 +260,7 @@ img {
     top: 66vw;
     left: 61vw;
     
-    width: 25.5vw;
+    width: 25vw;
     height: 20vw;
 }
 
@@ -252,7 +268,7 @@ img {
     top: 90vw;
     left: 61vw;
     
-    width: 25.5vw;
+    width: 25vw;
     height: 20vw;
 }
 
@@ -274,6 +290,6 @@ img {
     top: 2.5vw;
     left: 2.5vw;
 
-    width: 84vw;
+    width: 86vw;
     height: 12vw;
 }

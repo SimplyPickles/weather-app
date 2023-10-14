@@ -4,7 +4,9 @@
         <meta charset = "utf-8">
         <meta name = "viewport" content = "width = device-width">
         <title> title goes here </title>
-        <link href = "styles.css" rel = "stylesheet" type = "text/css" />
+        <link href = "styles.css" rel = "stylesheet" type = "text/css"/>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     </head>
 
     <body>
@@ -19,11 +21,13 @@
         </div>
 
         <div id = "navbar" class = "frostedglass">
-            <button> Map </button>
-            <button> Daily </button>
+            <button onclick = "openmap();"> Map </button>
+            <button onclick = "opendaily();"> Daily </button>
             <button> Forecast </button>
         </div>
 
+        <div id = "mapbox" class = "frostedglass"> </div>
+        
         <div id = "widgetbox" class = "frostedglass">
             <div id = "aqibox" class = "frostedwidget">
                 <h1 id = "airquality" class = "bartitle"> Air Quality index: 1 </h1>
@@ -72,8 +76,6 @@
                 <h1 class = "bottomtext"> Visibility </h1>
             </div>
         </div>
-
-        <div id = "loadingbox"> </div>
 
         <script src = "main.js"></script>
     </body>
