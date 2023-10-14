@@ -11,7 +11,7 @@
 }
 
 * {
-    transition: 0.15s;
+    transition: 0.05s;
 }
 
 @font-face {
@@ -49,7 +49,7 @@ button {
     border: none;
 
     font-family: bold;
-    font-size: 3.25vw;
+    font-size: 1.5vh;
 
     width: 25vw;
 }
@@ -71,11 +71,27 @@ img {
     width: 11vw;
 }
 
+#loadingbox {
+    position: absolute;
+    background: -webkit-linear-gradient(#313D67, #161A3F);
+    opacity: 1;
+
+    left: 0;
+    top: 0;
+
+    width: 1000%;
+    height: 1000%;
+    border-radius: 0;
+
+    animation: none;
+}
+
 #locationbox {
     width: 50vw;
     left: 25vw;
+    height: 12;
 
-    height: 12vw;
+    top: 2.5vw;
     margin: auto;
 }
 
@@ -117,7 +133,7 @@ img {
 }
 
 #navbar {
-    width: 90vw;
+    width: 92.5vw;
     height: 2.8vh;
 
     left: 5vw;
@@ -128,7 +144,7 @@ img {
 }
 
 #widgetbox {
-    width: 90vw;
+    width: 92.5vw;
     height: 43vh;
 
     left: 5vw;
