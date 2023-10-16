@@ -121,7 +121,7 @@ if (navigator.geolocation) {
         let loc = [position.coords.latitude, position.coords.longitude];
         loadMap(loc);
 
-        map = L.map('mapbox').setView(loc, 13);
+        map = L.map('mapbox').setView(new L.LatLng(loc[0], loc[1]), 10);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -131,7 +131,6 @@ if (navigator.geolocation) {
         map.on('click', function(e) {
             if (marker) map.removeLayer(marker);
             
-            console.log(e.latlng);
             marker = L.marker(e.latlng).addTo(map);
 
             loadMap([e.latlng.lat, e.latlng.lng]);
@@ -145,6 +144,11 @@ function loadMap(loc) {
     xmlHttp.open("GET", url, false);
     xmlHttp.send(null);
     let response = JSON.parse(xmlHttp.responseText);
+    
+    if (response != null & response != undefined) {
+        document.getElementById("loadingbg").style.display = "none";
+        document.getElementById("loadingbox").style.display = "none";
+    }
 
     // Get timestamp
     let timestamp = new Date().toISOString().split(":")[0];
@@ -157,8 +161,7 @@ function loadMap(loc) {
     feelslike.innerHTML = `Feels like ${response.hourly.apparent_temperature[timeIndex]}°C`;
 
     visibility.innerHTML = `${response.hourly.visibility[timeIndex] / 1000} km`;
-    //dewpoint.innerHTML = `Dew Point: ${response.hourly.dewpoint_2m[timeIndex]}°C`;
-    console.log(codes[response.daily.weathercode[0]]);
+    
     conditions.innerHTML = `${codes[response.daily.weathercode[0].toString()]}`;
     humidity.innerHTML = `${response.hourly.relativehumidity_2m[timeIndex]}%`;
     windspeed.innerHTML = `${response.current_weather.windspeed} km/h`;
@@ -173,3 +176,4 @@ function opendaily() {
     document.getElementById("mapbox").style.display = "none";
     document.getElementById("widgetbox").style.display = "inline";
 }
+

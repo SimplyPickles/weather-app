@@ -10,6 +10,16 @@
     }
 }
 
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 * {
     transition: 0.05s;
 }
@@ -35,7 +45,7 @@ html, body {
 div {
     position: absolute;
     border-radius: 10px;
-    animation: 0.95s ease-out 0s 1 slideUp;
+    animation: 0.5s ease-out 0s 1 slideUp;
 }
 
 h1 {
@@ -44,12 +54,13 @@ h1 {
 }
 
 button {
-    background: transparent;
+    transition: 0.15s;
+    background: none;
     color: white;
     border: none;
 
     font-family: bold;
-    font-size: 1.5vh;
+    font-size: 3.5vw;
 
     width: 25vw;
 }
@@ -72,19 +83,46 @@ img {
 }
 
 #loadingbox {
-    position: absolute;
-    background: -webkit-linear-gradient(#313D67, #161A3F);
+    animation: 1s ease-out 0s 1 appear;
     opacity: 1;
 
-    left: 0;
-    top: 0;
+    width: 60vw;
+    left: 20vw;
+    height: 20.5vw;
+
+    top: 39.5vh;
+    margin: auto;
+    
+    z-index: 2;
+}
+
+#loadingbg {
+    animation: none;
+    opacity: 0.5;
+    background-color: black;
 
     width: 1000%;
     height: 1000%;
-    border-radius: 0;
 
-    animation: none;
-    pointer-events: none;
+    border-radius: 0;
+    margin: -50%;
+    
+    z-index: 1;
+}
+
+#loadingtxt {
+    color: white;
+    font-size: 4vw;
+}
+
+#loadingtxt2 {
+    color: white;
+    font-size: 2.6vw;
+
+    margin-top: -3.2vw;
+    margin-left: 5%;
+
+    width: 90%;
 }
 
 #locationbox {
@@ -92,7 +130,7 @@ img {
     left: 25vw;
     height: 12.5vw;
 
-    top: 2.5vw;
+    top: 4vw;
     margin: auto;
 }
 
@@ -115,8 +153,10 @@ img {
     width: 80vw;
     height: 3vh;
 
+    margin-bottom: -0.5vh;
+
     left: 10vw;
-    top: 50vh;
+    bottom: 125vw;
 }
 
 #temperature {
@@ -138,28 +178,39 @@ img {
     height: 2.8vh;
 
     left: 5vw;
-    top: 51vh;
+    bottom: 118vw;
+    margin-bottom: 1.5vh;
 
     display: flex;
     justify-content: center;
 }
 
 #mapbox {
+    animation: 0.7s ease-out 0s 1 appear;
     display: none;
 
     width: 89.5vw;
-    height: 43vh;
+    height: 112.5vw;
 
     left: 5vw;
-    top: 54.8vh;
+    bottom: 2vh;
 }
 
 #widgetbox {
+    animation: 0.7s ease-out 0s 1 appear;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
     width: 89.5vw;
-    height: 43vh;
+    height: 112.5vw;
 
     left: 5vw;
-    top: 54.8vh;
+    bottom: 2vh;
+}
+
+::-webkit-scrollbar {
+    background: none;
+    width: 0;
 }
 
 .bartitle {
@@ -188,6 +239,7 @@ img {
 }
 
 #aqibox {
+    top: 81.5vw;
     width: 84vw;
 }
 
@@ -199,12 +251,12 @@ img {
 }
 
 #uvbox {
-    top: 18vw;
+    top: 97vw;
     width: 84vw;
 }
 
 #windbox {
-    top: 34vw;
+    top: 50vw;
     left: 3%;
 
     width: 28%;
@@ -212,7 +264,7 @@ img {
 }
 
 #conditionsbox {
-    top: 34vw;
+    top: 50vw;
     left: 35.5%;
 
     width: 28%;
@@ -220,7 +272,7 @@ img {
 }
 
 #humiditybox {
-    top: 34vw;
+    top: 50vw;
     left: 68%;
 
     width: 28%;
@@ -229,7 +281,7 @@ img {
 
 .toptext {
     color: rgba(255, 255, 255, 1);
-    font-size: 4.25vw;
+    font-size: 4.5vw;
     
     margin-top: -1vw;
 }
@@ -238,26 +290,28 @@ img {
     color: rgba(255, 255, 255, 0.25);
     font-size: 2.5vw;
 
-    margin-top: -4vw;
+    margin-top: -4.5vw;
 }
 
 #raingraph {
-    top: 66vw;
     left: 3vw;
     
     width: 54vw;
     height: 44vw;
 }
 
-#rainpercent {
-    color: white;
-    font-size: 4vw;
+#conditionsimg {
+    width: 35vw;
+}
 
-    margin-top: 36vw;
+#conditionstxt {
+    color: white;
+    font-size: 5vw;
+
+    margin-top: -2vw;
 }
 
 #rainfall {
-    top: 66vw;
     left: 61vw;
     
     width: 25vw;
@@ -265,7 +319,7 @@ img {
 }
 
 #visibility {
-    top: 90vw;
+    top: 26.5vw;
     left: 61vw;
     
     width: 25vw;

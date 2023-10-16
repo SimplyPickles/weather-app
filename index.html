@@ -3,13 +3,19 @@
     <head>
         <meta charset = "utf-8">
         <meta name = "viewport" content = "width = device-width">
-        <title> title goes here </title>
+        <title> Sim </title>
         <link href = "styles.css" rel = "stylesheet" type = "text/css"/>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     </head>
 
     <body>
+        <div id = "loadingbg"> </div>
+        <div id = "loadingbox" class = "frostedglass">
+            <h1 id = "loadingtxt"> Waiting for api response </h1>
+            <h1 id = "loadingtxt2"> This can take from a few seconds up to a few minutes depending on your internet connenction. </h1>
+        </div>
+
         <div id = "locationbox" class = "frostedglass">
             <h1 id = "location"> Montclair </h1>
             <h1 id = "location2"> New Jersey </h1>
@@ -49,19 +55,20 @@
             <div id = "conditionsbox" class = "frostedwidget">
                 <img src = "icons/mini/sunny.png">
 
-                <h1 id = "conditionstxt" class = "toptext"> Sunny </h1>
-                <h1 class = "bottomtext"> Conditions </h1>
+                <h1 id = "rainchance" class = "toptext"> 50% </h1>
+                <h1 class = "bottomtext"> Chance to Rain </h1>
             </div>
 
             <div id = "humiditybox" class = "frostedwidget">
                 <img src = "icons/mini/humidity.png">
-
                 <h1 id = "humiditytxt" class = "toptext"> 88% </h1>
                 <h1 class = "bottomtext"> Humidity </h1>
             </div>
 
             <div id = "raingraph" class = "frostedwidget">
-                <h1 id = "rainpercent"> Chance to Rain: 64% </h1>
+                <img id = "conditionsimg" src = "icons/mini/sunny.png">
+                <h1 id = "conditionstxt"> Sunny </h1>
+                <h1 class = "bottomtext"> Weather Conditions </h1>
             </div>
 
             <div id = "rainfall" class = "frostedwidget">
@@ -71,8 +78,8 @@
             </div>
                 
             <div id = "visibility" class = "frostedwidget">
-                <img src = "icons/mini/humidity.png" class = "img2">
-                <h1 id = "visibilitytxt" class = "toptext"> i dunno </h1>
+                <img src = "icons/mini/visibility.png" class = "img2">
+                <h1 id = "visibilitytxt" class = "toptext"> 0 km </h1>
                 <h1 class = "bottomtext"> Visibility </h1>
             </div>
         </div>
