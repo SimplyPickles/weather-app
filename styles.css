@@ -24,6 +24,18 @@
     transition: 0.05s;
 }
 
+input {
+    font: bold;
+    color: white;
+    text-align: center;
+}
+
+*:focus {
+
+    outline: none;
+    border: none;
+}
+
 @font-face {
     font-family: bold;
     src: url(font/bold.ttf);
@@ -38,8 +50,11 @@ html, body {
     background: -webkit-linear-gradient(#313D67, #161A3F);
     overflow: hidden;
 
+    margin: 0;
+    padding: 0;
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
 }
 
 div {
@@ -126,12 +141,32 @@ img {
 }
 
 #locationbox {
+    transition: 0.4s;
     width: 50vw;
     left: 25vw;
     height: 12.5vw;
 
     top: 4vw;
     margin: auto;
+
+    cursor: pointer;
+}
+
+#locationselection {
+    opacity: 0;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+    
+    left: 0;
+    top: 0;
+
+    background: none;
+
+    cursor: pointer;
 }
 
 #location {
@@ -156,7 +191,7 @@ img {
     margin-bottom: -0.5vh;
 
     left: 10vw;
-    bottom: 125vw;
+    bottom: 112vw;
 }
 
 #temperature {
@@ -178,11 +213,16 @@ img {
     height: 2.8vh;
 
     left: 5vw;
-    bottom: 118vw;
+    bottom: 104vw;
     margin-bottom: 1.5vh;
 
     display: flex;
     justify-content: center;
+}
+
+#mapcontainer {
+    width: 100%;
+    height: 100%;
 }
 
 #mapbox {
@@ -190,10 +230,21 @@ img {
     display: none;
 
     width: 89.5vw;
-    height: 112.5vw;
+    height: 100vw;
 
     left: 5vw;
-    bottom: 2vh;
+    bottom: 1.5vh;
+}
+
+#forecastbox {
+    animation: 0.7s ease-out 0s 1 appear;
+    display: none;
+
+    width: 89.5vw;
+    height: 100vw;
+
+    left: 5vw;
+    bottom: 1.5vh;
 }
 
 #widgetbox {
@@ -202,10 +253,12 @@ img {
     overflow-y: scroll;
 
     width: 89.5vw;
-    height: 112.5vw;
+    height: 100vw;
 
     left: 5vw;
-    bottom: 2vh;
+    bottom: 1.5vh;
+
+    scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {

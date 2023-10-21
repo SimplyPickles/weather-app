@@ -102,6 +102,10 @@ let codes = [
 ];
 
 // Get elements
+const locationbox = document.getElementById("locationbox");
+const l1 = document.getElementById("location");
+const l2 = document.getElementById("location2");
+
 const lbox = document.getElementById("loadingbox");
 
 const uvindex = document.getElementById("uv");
@@ -115,13 +119,27 @@ const conditions = document.getElementById("conditionstxt");
 const humidity = document.getElementById("humiditytxt");
 const windspeed = document.getElementById("windspeedtxt");
 
+let map;
+
+let locationselection = document.getElementById("locationselection");
+
+locationbox.onclick = function () {
+    l1.style.opacity = 0;
+    l2.style.opacity = 0;
+    locationselection.style.opacity = 1;
+}
+
 // Get user location
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
         let loc = [position.coords.latitude, position.coords.longitude];
         loadMap(loc);
 
-        map = L.map('mapbox').setView(new L.LatLng(loc[0], loc[1]), 10);
+        map = L.map('mapcontainer', {
+            center: loc,
+            zoom: 15
+        }).setView(new L.LatLng(loc[0], loc[1]), 10);
+        setTimeout(function() { map.invalidateSize(true); }, 100);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -170,10 +188,18 @@ function loadMap(loc) {
 function openmap() {
     document.getElementById("mapbox").style.display = "inline";
     document.getElementById("widgetbox").style.display = "none";
+    document.getElementById("forecast").style.display = "none";
+    setTimeout(function() { map.invalidateSize() }, 100);
 }
 
 function opendaily() {
     document.getElementById("mapbox").style.display = "none";
     document.getElementById("widgetbox").style.display = "inline";
+    document.getElementById("forecastbox").style.display = "none";
 }
 
+function openforecast() {
+    document.getElementById("mapbox").style.display = "none";
+    document.getElementById("widgetbox").style.display = "none";
+    document.getElementById("forecastbox").style.display = "inline";
+}
