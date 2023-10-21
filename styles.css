@@ -245,6 +245,57 @@ img {
 
     left: 5vw;
     bottom: 1.5vh;
+    
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.forecastitem {
+    background: rgba(40, 46, 62, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.6px);
+    -webkit-backdrop-filter: blur(5.6px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    left: 3.5%;
+    top: 3%;
+
+    width: 93%;
+    height: 15vw;
+}
+
+#f2 {
+    top: 21.5vw;
+}
+
+#f3 {
+    top: 40vw;
+}
+
+#f4 {
+    top: 59vw;
+}
+
+#f5 {
+    top: 78vw;
+}
+
+#f6 {
+    top: 97vw;
+}
+
+#f7 {
+    top: 116vw;
+}
+
+.daytitle {
+    color: white;
+
+    position: absolute;
+    font-size: 4vw;
+    
+    left: 2vw;
+    top: -1vw;
 }
 
 #widgetbox {

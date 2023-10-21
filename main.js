@@ -119,6 +119,8 @@ const conditions = document.getElementById("conditionstxt");
 const humidity = document.getElementById("humiditytxt");
 const windspeed = document.getElementById("windspeedtxt");
 
+const rainfall = document.getElementById("rainfalltxt");
+
 let map;
 
 let locationselection = document.getElementById("locationselection");
@@ -135,7 +137,7 @@ if (navigator.geolocation) {
         let loc = [position.coords.latitude, position.coords.longitude];
         loadMap(loc);
 
-        map = L.map('mapcontainer', {
+        map = L.map('mapbox', {
             center: loc,
             zoom: 15
         }).setView(new L.LatLng(loc[0], loc[1]), 10);
@@ -154,7 +156,7 @@ if (navigator.geolocation) {
             loadMap([e.latlng.lat, e.latlng.lng]);
         });
     });
-}
+} 
 
 function loadMap(loc) {
     let url = `https://api.open-meteo.com/v1/forecast?latitude=${loc[0]}&longitude=${loc[1]}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,rain,snowfall,weathercode,visibility,windspeed_10m,winddirection_10m,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max&current_weather=true&timezone=auto`;
@@ -183,13 +185,21 @@ function loadMap(loc) {
     conditions.innerHTML = `${codes[response.daily.weathercode[0].toString()]}`;
     humidity.innerHTML = `${response.hourly.relativehumidity_2m[timeIndex]}%`;
     windspeed.innerHTML = `${response.current_weather.windspeed} km/h`;
+
+    
+    url = `https://api.open-meteo.com/v1/forecast?latitude=${loc[0]}&longitude=${loc[1]}&current=precipitation&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max,windspeed_10m_max&timezone=auto`;
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    response = JSON.parse(xmlHttp.responseText);
+
+    rainfall.innerHTML = `${response.current.precipitation} mm`;
 }
 
 function openmap() {
     document.getElementById("mapbox").style.display = "inline";
     document.getElementById("widgetbox").style.display = "none";
-    document.getElementById("forecast").style.display = "none";
-    setTimeout(function() { map.invalidateSize() }, 100);
+    document.getElementById("forecastbox").style.display = "none";
 }
 
 function opendaily() {
