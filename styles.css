@@ -24,16 +24,16 @@
     transition: 0.05s;
 }
 
-input {
-    font: bold;
-    color: white;
-    text-align: center;
-}
-
 *:focus {
 
     outline: none;
     border: none;
+}
+
+input {
+    font: bold;
+    color: white;
+    text-align: center;
 }
 
 @font-face {
@@ -292,10 +292,39 @@ img {
     color: white;
 
     position: absolute;
-    font-size: 4vw;
+    font-size: 3.5vw;
     
     left: 2vw;
     top: -1vw;
+}
+
+.ftemp {
+    color: white;
+
+    position: absolute;
+    font-size: 4vw;
+    
+    left: 8.5vw;
+    bottom: -0.5vw;
+}
+
+.frain {
+    color: white;
+
+    position: absolute;
+    font-size: 6vw;
+    
+    right: 2vw;
+    top: 500vw;
+}
+
+.forecastimg {
+    position: absolute;
+    
+    left: 1vw;
+    top: 6vw;
+
+    width: 7.5vw;
 }
 
 #widgetbox {
@@ -313,8 +342,24 @@ img {
 }
 
 ::-webkit-scrollbar {
-    background: none;
+    background: transparent;
     width: 0;
+}
+
+::-webkit-scrollbar-thumb {
+    position: absolute;
+    border-radius: 5vw;
+    
+    background: white;
+    width: 0;
+    
+    background-clip: content-box;
+    border: 5px solid transparent;
+}
+
+::-webkit-scrollbar-track {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
 }
 
 .bartitle {
