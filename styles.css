@@ -294,7 +294,10 @@ img {
     position: absolute;
     font-size: 3.5vw;
     
-    left: 2vw;
+    
+    width: 100%;
+
+    left: 0;
     top: -1vw;
 }
 
@@ -304,7 +307,7 @@ img {
     position: absolute;
     font-size: 4vw;
     
-    left: 8.5vw;
+    left: 10vw;
     bottom: -0.5vw;
 }
 
@@ -312,16 +315,25 @@ img {
     color: white;
 
     position: absolute;
-    font-size: 6vw;
+    font-size: 4vw;
     
     right: 2vw;
-    top: 500vw;
+    bottom: -0.5vw;
 }
 
 .forecastimg {
     position: absolute;
     
     left: 1vw;
+    top: 6vw;
+
+    width: 7.5vw;
+}
+
+.forecastrainimg {
+    position: absolute;
+    
+    right: 40vw;
     top: 6vw;
 
     width: 7.5vw;

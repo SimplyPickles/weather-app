@@ -160,7 +160,7 @@ if (navigator.geolocation) {
 
 function loadMap(loc) {
     let url = `https://api.open-meteo.com/v1/forecast?latitude=${loc[0]}&longitude=${loc[1]}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,rain,snowfall,weathercode,visibility,windspeed_10m,winddirection_10m,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max&current_weather=true&timezone=auto`;
-    let xmlHttp = new XMLHttpRequest();
+    let xmlHttp = new XMLHttpRequest(); 
     xmlHttp.open("GET", url, false);
     xmlHttp.send(null);
     let response = JSON.parse(xmlHttp.responseText);
@@ -186,7 +186,6 @@ function loadMap(loc) {
     humidity.innerHTML = `${response.hourly.relativehumidity_2m[timeIndex]}%`;
     windspeed.innerHTML = `${response.current_weather.windspeed} km/h`;
 
-    
     url = `https://api.open-meteo.com/v1/forecast?latitude=${loc[0]}&longitude=${loc[1]}&current=precipitation&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max,windspeed_10m_max&timezone=auto`;
     xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, false);
@@ -194,6 +193,12 @@ function loadMap(loc) {
     response = JSON.parse(xmlHttp.responseText);
 
     rainfall.innerHTML = `${response.current.precipitation} mm`;
+
+    url = `https://api.open-meteo.com/v1/forecast?latitude=${loc[0]}&longitude=${loc[1]}&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=auto`;
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    response = JSON.parse(xmlHttp.responseText);
 }
 
 function openmap() {
