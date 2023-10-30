@@ -1,0 +1,25 @@
+1-3 sunny
+4 cloudy
+5-13 fog
+14 lightning
+15-17 rain
+18 lightning
+19 wind
+20 clouds
+21-22 rain
+23 snow
+24 rain and snow
+25-26 rain
+27-28 snow
+29 fog
+30 lightning rain
+31-36 fog
+37-40 snow
+41-50 fog
+51-70 rain
+71-80 snow
+81-83 rain
+84-91 snow
+92-93 rain
+94-95 snow
+96-100 lightning and rain

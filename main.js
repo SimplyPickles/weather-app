@@ -49,7 +49,7 @@ let codes = [
     "Fog Thickening",
     "Fog",
     "Fog",
-    "Fog ",
+    "Fog",
     "Drizzle",
     "Drizzle",
     "Moderate Drizzle",
@@ -120,6 +120,8 @@ const feelslike = document.getElementById("feelslike");
 const visibility = document.getElementById("visibilitytxt");
 
 const conditions = document.getElementById("conditionstxt");
+const conditionsimg = document.getElementById("conditionsimg");
+
 const humidity = document.getElementById("humiditytxt");
 const windspeed = document.getElementById("windspeedtxt");
 
@@ -160,16 +162,16 @@ let map;
 let locationselection = document.getElementById("locationselection");
 
 // Search functions
-locationbox.onclick = function () {
-    l1.style.opacity = 0;
-    l2.style.opacity = 0;
-    locationselection.style.opacity = 1;
-}
+//locationbox.onclick = function () {
+//    l1.style.opacity = 0;
+//    l2.style.opacity = 0;
+//    locationselection.style.opacity = 1;
+//}
 
 // Get user location
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
-        let loc = [position.coords.latitude, position.coords.longitude];
+        let loc = [clamp(position.coords.latitude, -89, 89), clamp(position.coords.longitude, -179, 179)];
         loadData(loc);
 
         map = L.map('mapbox', {
@@ -188,8 +190,22 @@ if (navigator.geolocation) {
             
             marker = L.marker(e.latlng).addTo(map);
 
-            loadData([e.latlng.lat, e.latlng.lng]);
+            loadData([clamp(e.latlng.lat, -89, 89), clamp(e.latlng.lng, -179, 179)]);
         });
+
+        let searchControl = new L.esri.Controls.Geosearch().addTo(map);
+        let results = new L.LayerGroup().addTo(map);
+
+        searchControl.on('results', function(data){
+            results.clearLayers();
+            for (let i = data.results.length - 1; i >= 0; i--) {
+                results.addLayer(L.marker(data.results[i].latlng));
+            }
+        });
+
+        setInterval(function () {
+            map.invalidateSize();
+        }, 100);
     });
 } 
 
@@ -216,13 +232,37 @@ function loadData(loc) {
 
     temperature.innerHTML = `${response.current_weather.temperature}°C`;
     feelslike.innerHTML = `Feels like ${response.hourly.apparent_temperature[timeIndex]}°C`;
-
-    visibility.innerHTML = `${response.hourly.visibility[timeIndex] / 1000} km`;
-    conditions.innerHTML = `${codes[response.daily.weathercode[0].toString()]}`;
     
+    visibility.innerHTML = `${response.hourly.visibility[timeIndex] / 1000} km`;
     rainchance.innerHTML = `${response.hourly.precipitation_probability[timeIndex].toString()}%`;
     humidity.innerHTML = `${response.hourly.relativehumidity_2m[timeIndex]}%`;
     windspeed.innerHTML = `${response.current_weather.windspeed} km/h`;
+
+    conditions.innerHTML = `${codes[response.daily.weathercode[0].toString()]}`;
+    let conditionsID = response.daily.weathercode[0];
+
+    if (conditionsID >= 1 && conditionsID <= 3) conditionsimg.src = "icons/Sunny.png";
+    if (conditionsID == 4) conditionsimg.src = "icons/Cloudy.png";
+    if (conditionsID >= 5 && conditionsID <= 13) conditionsimg.src = "icons/Fog.png";
+    if (conditionsID == 14) conditionsimg.src = "icons/RainLightning.png";
+    if (conditionsID >= 15 && conditionsID <= 18) conditionsimg.src = "icons/Rain.png";
+    if (conditionsID == 19) conditionsimg.src = "icons/wind.png";
+    if (conditionsID == 20) conditionsimg.src = "icons/Cloudy.png";
+    if (conditionsID >= 21 && conditionsID <= 22) conditionsimg.src = "icons/Rain.png";
+    if (conditionsID == 23) conditionsimg.src = "icons/CloudyWind.png";
+    if (conditionsID == 24) conditionsimg.src = "icons/SnowRain.png";
+    if (conditionsID >= 25 && conditionsID <= 26) conditionsimg.src = "icons/Rain.png";
+    if (conditionsID >= 27 && conditionsID <= 28) conditionsimg.src = "icons/Snow.png";
+    if (conditionsID == 29) conditionsimg.src = "icons/Fog.png";
+    if (conditionsID == 30) conditionsimg.src = "icons/Lightning.png";
+    if (conditionsID >= 31 && conditionsID <= 36) conditionsimg.src = "icons/Fog.png";
+    if (conditionsID >= 37 && conditionsID <= 40) conditionsimg.src = "icons/Snow.png";
+    if (conditionsID >= 41 && conditionsID <= 50) conditionsimg.src = "icons/Fog.png";
+    if (conditionsID >= 51 && conditionsID <= 70) conditionsimg.src = "icons/Rain.png";
+    if (conditionsID >= 71 && conditionsID <= 91) conditionsimg.src = "icons/Snow.png";
+    if (conditionsID >= 92 && conditionsID <= 93) conditionsimg.src = "icons/Rain.png";
+    if (conditionsID >= 94 && conditionsID <= 95) conditionsimg.src = "icons/Snow.png";
+    if (conditionsID >= 95 && conditionsID <= 100) conditionsimg.src = "icons/RainLightning.png";
 
     url = `https://api.open-meteo.com/v1/forecast?latitude=${loc[0]}&longitude=${loc[1]}&current=precipitation&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max,windspeed_10m_max&timezone=auto`;
     xmlHttp = new XMLHttpRequest();
@@ -246,8 +286,8 @@ function loadData(loc) {
     response = JSON.parse(xmlHttp.responseText);
 
     rainfall.innerHTML = `${response.daily.precipitation_sum[0]} mm`
-    console.log(response.daily);
-
+    
+    // Forecasts
     d1r.innerHTML = `Today • UV Index: ${response.daily.uv_index_max[0]}`;
     d2r.innerHTML = `${response.daily.time[1].split("-")[1]}/${response.daily.time[1].split("-")[2]} • UV Index: ${response.daily.uv_index_max[1]}`;
     d3r.innerHTML = `${response.daily.time[2].split("-")[1]}/${response.daily.time[2].split("-")[2]} • UV Index: ${response.daily.uv_index_max[2]}`;
@@ -271,6 +311,36 @@ function loadData(loc) {
     f5r.innerHTML = `${response.daily.precipitation_probability_max[4]}%`;
     f6r.innerHTML = `${response.daily.precipitation_probability_max[5]}%`;
     f7r.innerHTML = `${response.daily.precipitation_probability_max[6]}%`;
+
+    url = `https://nominatim.openstreetmap.org/reverse?lat=${loc[0]}&lon=${loc[1]}&<params>`;
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", url, false);
+    xmlHttp.send(null);
+    response = xmlToJson.parse(xmlHttp.responseText);
+
+    l1.innerHTML = "Coordinates:";
+    l2.innerHTML = `${loc[0].toFixed(7)}, ${loc[1].toFixed(7)}`;
+
+    try {
+        if (response.reversegeocode.addressparts.state_district != undefined) l1.innerHTML = response.reversegeocode.addressparts.state_district;
+        if (response.reversegeocode.addressparts.country != undefined) l1.innerHTML = response.reversegeocode.addressparts.country;
+        if (response.reversegeocode.addressparts.county != undefined) l1.innerHTML = response.reversegeocode.addressparts.county;
+        if (response.reversegeocode.addressparts.region != undefined) l1.innerHTML = response.reversegeocode.addressparts.region;
+        if (response.reversegeocode.addressparts.state != undefined) l1.innerHTML = response.reversegeocode.addressparts.state;
+
+        if (response.reversegeocode.addressparts.pt != undefined) l2.innerHTML = response.reversegeocode.addressparts.pt;
+        if (l1.innerHTML != response.reversegeocode.addressparts.county && response.reversegeocode.addressparts.county != undefined) l2.innerHTML = response.reversegeocode.addressparts.county;
+        if (response.reversegeocode.addressparts.city != undefined) l2.innerHTML = response.reversegeocode.addressparts.city;
+        if (response.reversegeocode.addressparts.village != undefined) l2.innerHTML = response.reversegeocode.addressparts.village;
+        if (response.reversegeocode.addressparts.municipality != undefined) l2.innerHTML = response.reversegeocode.addressparts.municipality;
+        if (response.reversegeocode.addressparts.town != undefined) l2.innerHTML = response.reversegeocode.addressparts.town;
+    } catch (err) {
+
+    }
+
+    if (l1.innerHTML == "Coordinates:") {
+        l2.innerHTML = `${loc[0].toFixed(7)}, ${loc[1].toFixed(7)}`;
+    }
 }
 
 // Navbar button functionality
@@ -290,4 +360,9 @@ function openforecast() {
     document.getElementById("mapbox").style.display = "none";
     document.getElementById("widgetbox").style.display = "none";
     document.getElementById("forecastbox").style.display = "inline";
+}
+
+// Number clamping
+function clamp(number, min, max) {
+    return Math.max(min, Math.min(number, max));
 }

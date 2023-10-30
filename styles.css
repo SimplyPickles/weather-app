@@ -97,6 +97,16 @@ img {
     width: 11vw;
 }
 
+#icon {
+    position: absolute;
+
+    left: 3vw;
+    top: 5%;
+
+    width: 35%;
+    height: 20%;
+}
+
 #loadingbox {
     animation: 1s ease-out 0s 1 appear;
     opacity: 1;
@@ -142,14 +152,13 @@ img {
 
 #locationbox {
     transition: 0.4s;
-    width: 50vw;
-    left: 25vw;
+    width: 89.5vw;
+    left: 5vw;
+
     height: 12.5vw;
-
     top: 4vw;
-    margin: auto;
 
-    cursor: pointer;
+    margin: auto;
 }
 
 #locationselection {
@@ -171,7 +180,7 @@ img {
 
 #location {
     color: rgba(255, 255, 255, 1);
-    font-size: 6.5vw;
+    font-size: 6vw;
 
     margin-top: 0;
 }
@@ -179,9 +188,9 @@ img {
 #location2 {
     font: thin;
     color: rgba(255, 255, 255, 0.5);
-    font-size: 3.6vw;
+    font-size: 3.5vw;
     
-    margin-top: -7vw;
+    margin-top: -6vw;
 }
 
 #tempbox {
@@ -191,7 +200,7 @@ img {
     margin-bottom: -0.5vh;
 
     left: 10vw;
-    bottom: 112vw;
+    bottom: 122vw;
 }
 
 #temperature {
@@ -213,7 +222,7 @@ img {
     height: 2.8vh;
 
     left: 5vw;
-    bottom: 104vw;
+    bottom: 115vw;
     margin-bottom: 1.5vh;
 
     display: flex;
@@ -230,7 +239,7 @@ img {
     display: none;
 
     width: 89.5vw;
-    height: 100vw;
+    height: 112vw;
 
     left: 5vw;
     bottom: 1.5vh;
@@ -241,7 +250,7 @@ img {
     display: none;
 
     width: 89.5vw;
-    height: 100vw;
+    height: 112vw;
 
     left: 5vw;
     bottom: 1.5vh;
@@ -307,7 +316,7 @@ img {
     position: absolute;
     font-size: 4vw;
     
-    left: 10vw;
+    left: 8vw;
     bottom: -0.5vw;
 }
 
@@ -345,7 +354,7 @@ img {
     overflow-y: scroll;
 
     width: 89.5vw;
-    height: 100vw;
+    height: 112vw;
 
     left: 5vw;
     bottom: 1.5vh;

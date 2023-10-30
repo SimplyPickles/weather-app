@@ -3,10 +3,16 @@
     <head>
         <meta charset = "utf-8">
         <meta name = "viewport" content = "width = device-width">
-        <title> Sim </title>
+        
+        <title> SimpleWeather </title>
         <link href = "styles.css" rel = "stylesheet" type = "text/css"/>
+
+        <!-- libaries -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="crossorigin=""></script>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="crossorigin=""> </script>
+        <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"> </script>
+    <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"> </script>
+        <script src="libs/xml2json.js"> </script>
     </head>
 
     <body>
@@ -15,7 +21,7 @@
             <h1 id = "loadingtxt"> Loading </h1>
             <h1 id = "loadingtxt2"> This can take from a few seconds up to a few minutes depending on your internet connenction. </h1>
         </div>
-
+        
         <div id = "locationbox" class = "frostedglass">
             <h1 id = "location"> Montclair </h1>
             <h1 id = "location2"> New Jersey </h1>
@@ -47,39 +53,39 @@
             </div>
 
             <div id = "windbox" class = "frostedwidget">
-                <img src = "icons/mini/wind.png">
+                <img src = "icons/wind.png">
 
                 <h1 id = "windspeedtxt" class = "toptext"> 17.3 km/h </h1>
                 <h1 class = "bottomtext"> Wind Speed </h1>
             </div>
 
             <div id = "conditionsbox" class = "frostedwidget">
-                <img src = "icons/Sunny.png">
+                <img src = "icons/Rain.png">
 
                 <h1 id = "rainchance" class = "toptext"> 43% </h1>
-                <h1 class = "bottomtext"> Chance to Rain </h1>
+                <h1 class = "bottomtext"> Chance of Rain </h1>
             </div>
 
             <div id = "humiditybox" class = "frostedwidget">
-                <img src = "icons/mini/humidity.png">
+                <img src = "icons/humidity.png">
                 <h1 id = "humiditytxt" class = "toptext"> 88% </h1>
                 <h1 class = "bottomtext"> Humidity </h1>
             </div>
 
             <div id = "raingraph" class = "frostedwidget">
-                <img id = "conditionsimg" src = "icons/mini/sunny.png">
+                <img id = "conditionsimg" src = "icons/Cloudy.png">
                 <h1 id = "conditionstxt"> Sunny </h1>
                 <h1 class = "bottomtext"> Weather Conditions </h1>
             </div>
 
             <div id = "rainfall" class = "frostedwidget">
-                <img src = "icons/mini/rain.png" class = "img2">
+                <img src = "icons/droplets.png" class = "img2">
                 <h1 id = "rainfalltxt" class = "toptext"> 22 mm </h1>
                 <h1 class = "bottomtext"> Rainfall </h1>
             </div>
                 
             <div id = "visibility" class = "frostedwidget">
-                <img src = "icons/mini/visibility.png" class = "img2">
+                <img src = "icons/visiblity.png" class = "img2">
                 <h1 id = "visibilitytxt" class = "toptext"> 0 km </h1>
                 <h1 class = "bottomtext"> Visibility </h1>
             </div>
@@ -90,70 +96,70 @@
             <div id = "f1" class = "forecastitem">
                 <h1 class = "daytitle" id = "d1r"> Today • UV Index: 0.2 </h1>
                 
-                <img src = "icons/mini/sunny.png" class = "forecastimg">
+                <img src = "icons/sunny.png" class = "forecastimg">
                 <h1 class = "ftemp" id = "t1r"> 15°C </h1>
 
-                <img src = "icons/mini/rain.png" class = "forecastrainimg">
+                <img src = "icons/rain.png" class = "forecastrainimg">
                 <h1 class = "frain" id = "f1r"> 15% </h1>
             </div>
             
             <div id = "f2" class = "forecastitem">
                 <h1 class = "daytitle" id = "d2r"> 10/1 • UV Index: 0.1 </h1>
                 
-                <img src = "icons/mini/sunny.png" class = "forecastimg">
+                <img src = "icons/sunny.png" class = "forecastimg">
                 <h1 class = "ftemp" id = "t2r"> 15°C </h1>
 
-                <img src = "icons/mini/rain.png" class = "forecastrainimg">
+                <img src = "icons/rain.png" class = "forecastrainimg">
                 <h1 class = "frain" id = "f2r"> 15% </h1>
             </div>
             
             <div id = "f3" class = "forecastitem">
                 <h1 class = "daytitle" id = "d3r"> 10/2 • UV Index: 0 </h1>
                 
-                <img src = "icons/mini/sunny.png" class = "forecastimg">
+                <img src = "icons/sunny.png" class = "forecastimg">
                 <h1 class = "ftemp" id = "t3r"> 15°C </h1>
 
-                <img src = "icons/mini/rain.png" class = "forecastrainimg">
+                <img src = "icons/rain.png" class = "forecastrainimg">
                 <h1 class = "frain" id = "f3r"> 15% </h1>
             </div>
             
             <div id = "f4" class = "forecastitem">
                 <h1 class = "daytitle" id = "d4r"> 10/3 • UV Index: 0 </h1>
                 
-                <img src = "icons/mini/sunny.png" class = "forecastimg">
+                <img src = "icons/sunny.png" class = "forecastimg">
                 <h1 class = "ftemp" id = "t4r"> 15°C </h1>
 
-                <img src = "icons/mini/rain.png" class = "forecastrainimg">
+                <img src = "icons/rain.png" class = "forecastrainimg">
                 <h1 class = "frain" id = "f4r"> 15% </h1>
             </div>
             
             <div id = "f5" class = "forecastitem">
                 <h1 class = "daytitle" id = "d5r"> 10/4 • UV Index: 0.1 </h1>
                 
-                <img src = "icons/mini/sunny.png" class = "forecastimg">
+                <img src = "icons/sunny.png" class = "forecastimg">
                 <h1 class = "ftemp" id = "t5r"> 15°C </h1>
 
-                <img src = "icons/mini/rain.png" class = "forecastrainimg">
+                <img src = "icons/rain.png" class = "forecastrainimg">
                 <h1 class = "frain" id = "f5r"> 15% </h1>
             </div>
             
             <div id = "f6" class = "forecastitem">
                 <h1 class = "daytitle" id = "d6r"> 10/5 • UV Index: 0.1 </h1>
                 
-                <img src = "icons/mini/sunny.png" class = "forecastimg">
+                <img src = "icons/sunny.png" class = "forecastimg">
                 <h1 class = "ftemp" id = "t6r"> 15°C </h1>
 
-                <img src = "icons/mini/rain.png" class = "forecastrainimg">
+                <img src = "icons/rain.png" class = "forecastrainimg">
                 <h1 class = "frain" id = "f6r"> 15% </h1>
             </div>
             
             <div id = "f7" class = "forecastitem">
                 <h1 class = "daytitle" id = "d7r"> 10/6 • UV Index: 0 </h1>
                 
-                <img src = "icons/mini/sunny.png" class = "forecastimg">
+                <img src = "icons/sunny.png" class = "forecastimg">
                 <h1 class = "ftemp" id = "t7r"> 15°C </h1>
 
-                <img src = "icons/mini/rain.png" class = "forecastrainimg">
+                <img src = "icons/rain.png" class = "forecastrainimg">
                 <h1 class = "frain" id = "f7r"> 15% </h1>
             </div>
         </div>
