@@ -32,9 +32,8 @@
 
 input {
     font: bold;
-    color: white;
-    text-align: left;
     color: black;
+    text-align: left;
 }
 
 @font-face {

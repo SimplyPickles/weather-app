@@ -198,6 +198,8 @@ if (navigator.geolocation) {
 
         searchControl.on('results', function(data){
             results.clearLayers();
+            loadData([clamp(data.results[0].latlng.lat, -89, 89), clamp(data.results[0].latlng.lng, -179, 179)]);
+            
             for (let i = data.results.length - 1; i >= 0; i--) {
                 results.addLayer(L.marker(data.results[i].latlng));
             }
