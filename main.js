@@ -132,46 +132,55 @@ const rainchance = document.getElementById("rainchance");
 const d1r = document.getElementById("d1r");
 const t1r = document.getElementById("t1r");
 const f1r = document.getElementById("f1r");
+const f1i = document.getElementById("f1i");
 
 const d2r = document.getElementById("d2r");
 const t2r = document.getElementById("t2r");
 const f2r = document.getElementById("f2r");
+const f2i = document.getElementById("f2i");
 
 const d3r = document.getElementById("d3r");
 const t3r = document.getElementById("t3r");
 const f3r = document.getElementById("f3r");
+const f3i = document.getElementById("f3i");
 
 const d4r = document.getElementById("d4r");
 const t4r = document.getElementById("t4r");
 const f4r = document.getElementById("f4r");
+const f4i = document.getElementById("f4i");
 
 const d5r = document.getElementById("d5r");
 const t5r = document.getElementById("t5r");
 const f5r = document.getElementById("f5r");
+const f5i = document.getElementById("f5i");
 
 const d6r = document.getElementById("d6r");
 const t6r = document.getElementById("t6r");
 const f6r = document.getElementById("f6r");
+const f6i = document.getElementById("f6i");
 
 const d7r = document.getElementById("d7r");
 const t7r = document.getElementById("t7r");
 const f7r = document.getElementById("f7r");
+const f7i = document.getElementById("f7i");
 
 // Maps and location
 let map;
 let locationselection = document.getElementById("locationselection");
 
-// Search functions
-//locationbox.onclick = function () {
-//    l1.style.opacity = 0;
-//    l2.style.opacity = 0;
-//    locationselection.style.opacity = 1;
-//}
+// Temperature
+let celcius = false;
+const tempbox = document.getElementById("tempbox");
+tempbox.onclick = function () {
+    celcius = !celcius;
+    loadData(loc);
+};
 
 // Get user location
+let loc = [0, 0];
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
-        let loc = [clamp(position.coords.latitude, -89, 89), clamp(position.coords.longitude, -179, 179)];
+        loc = [clamp(position.coords.latitude, -89, 89), clamp(position.coords.longitude, -179, 179)];
         loadData(loc);
 
         map = L.map('mapbox', {
@@ -190,7 +199,8 @@ if (navigator.geolocation) {
             
             marker = L.marker(e.latlng).addTo(map);
 
-            loadData([clamp(e.latlng.lat, -89, 89), clamp(e.latlng.lng, -179, 179)]);
+            loc = [clamp(e.latlng.lat, -89, 89), clamp(e.latlng.lng, -179, 179)];
+            loadData(loc);
         });
 
         let searchControl = new L.esri.Controls.Geosearch().addTo(map);
@@ -232,13 +242,24 @@ function loadData(loc) {
     uvindex.innerHTML = `UV Index: ${response.hourly.uv_index[timeIndex]}`;
     uvdot.style.marginLeft = `${(100 * (response.hourly.uv_index[timeIndex]) / 75) - 79}vw`;
 
-    temperature.innerHTML = `${response.current_weather.temperature}°C`;
-    feelslike.innerHTML = `Feels like ${response.hourly.apparent_temperature[timeIndex]}°C`;
+    if (celcius) {
+        temperature.innerHTML = `${response.current_weather.temperature}°C`;
+        feelslike.innerHTML = `Feels like ${response.hourly.apparent_temperature[timeIndex]}°C`;
+    } else {
+        temperature.innerHTML = `${temperatureConversion(response.current_weather.temperature)}°F`;
+        feelslike.innerHTML = `Feels like ${temperatureConversion(response.hourly.apparent_temperature[timeIndex])}°F`;
+    }
     
-    visibility.innerHTML = `${response.hourly.visibility[timeIndex] / 1000} km`;
+    if (celcius) {
+        visibility.innerHTML = `${response.hourly.visibility[timeIndex] / 1000} km`;
+        windspeed.innerHTML = `${response.current_weather.windspeed} km/h`;
+    } else {
+        visibility.innerHTML = `${kmtm(response.hourly.visibility[timeIndex] / 1000)} Mi`;
+        windspeed.innerHTML = `${kmtm(response.current_weather.windspeed)} mph`;
+    }
+
     rainchance.innerHTML = `${response.hourly.precipitation_probability[timeIndex].toString()}%`;
     humidity.innerHTML = `${response.hourly.relativehumidity_2m[timeIndex]}%`;
-    windspeed.innerHTML = `${response.current_weather.windspeed} km/h`;
 
     conditions.innerHTML = `${codes[response.daily.weathercode[0].toString()]}`;
     let conditionsID = response.daily.weathercode[0];
@@ -290,7 +311,11 @@ function loadData(loc) {
     xmlHttp.send(null);
     response = JSON.parse(xmlHttp.responseText);
 
-    rainfall.innerHTML = `${response.daily.precipitation_sum[0]} mm`
+    if (celcius) {
+        rainfall.innerHTML = `${response.daily.precipitation_sum[0]} mm`
+    } else {
+        rainfall.innerHTML = `${mmtin(response.daily.precipitation_sum[0])}″`
+    }
     
     // Forecasts
     d1r.innerHTML = `Today • UV Index: ${response.daily.uv_index_max[0]}`;
@@ -301,13 +326,23 @@ function loadData(loc) {
     d6r.innerHTML = `${response.daily.time[5].split("-")[1]}/${response.daily.time[5].split("-")[2]} • UV Index: ${response.daily.uv_index_max[5]}`;
     d7r.innerHTML = `${response.daily.time[6].split("-")[1]}/${response.daily.time[6].split("-")[2]} • UV Index: ${response.daily.uv_index_max[6]}`;
 
-    t1r.innerHTML = `${Math.round((response.daily.temperature_2m_max[0] + response.daily.temperature_2m_min[0]) / 2)}°C`;
-    t2r.innerHTML = `${Math.round((response.daily.temperature_2m_max[1] + response.daily.temperature_2m_min[1]) / 2)}°C`;
-    t3r.innerHTML = `${Math.round((response.daily.temperature_2m_max[2] + response.daily.temperature_2m_min[2]) / 2)}°C`;
-    t4r.innerHTML = `${Math.round((response.daily.temperature_2m_max[3] + response.daily.temperature_2m_min[3]) / 2)}°C`;
-    t5r.innerHTML = `${Math.round((response.daily.temperature_2m_max[4] + response.daily.temperature_2m_min[4]) / 2)}°C`;
-    t6r.innerHTML = `${Math.round((response.daily.temperature_2m_max[5] + response.daily.temperature_2m_min[5]) / 2)}°C`;
-    t7r.innerHTML = `${Math.round((response.daily.temperature_2m_max[6] + response.daily.temperature_2m_min[6]) / 2)}°C`;
+    if (celcius) {
+        t1r.innerHTML = `${Math.round((response.daily.temperature_2m_max[0] + response.daily.temperature_2m_min[0]) / 2)}°C`;
+        t2r.innerHTML = `${Math.round((response.daily.temperature_2m_max[1] + response.daily.temperature_2m_min[1]) / 2)}°C`;
+        t3r.innerHTML = `${Math.round((response.daily.temperature_2m_max[2] + response.daily.temperature_2m_min[2]) / 2)}°C`;
+        t4r.innerHTML = `${Math.round((response.daily.temperature_2m_max[3] + response.daily.temperature_2m_min[3]) / 2)}°C`;
+        t5r.innerHTML = `${Math.round((response.daily.temperature_2m_max[4] + response.daily.temperature_2m_min[4]) / 2)}°C`;
+        t6r.innerHTML = `${Math.round((response.daily.temperature_2m_max[5] + response.daily.temperature_2m_min[5]) / 2)}°C`;
+        t7r.innerHTML = `${Math.round((response.daily.temperature_2m_max[6] + response.daily.temperature_2m_min[6]) / 2)}°C`;
+    } else {
+        t1r.innerHTML = `${temperatureConversion(Math.round((response.daily.temperature_2m_max[0] + response.daily.temperature_2m_min[0]) / 2))}°F`;
+        t2r.innerHTML = `${temperatureConversion(Math.round((response.daily.temperature_2m_max[1] + response.daily.temperature_2m_min[1]) / 2))}°F`;
+        t3r.innerHTML = `${temperatureConversion(Math.round((response.daily.temperature_2m_max[2] + response.daily.temperature_2m_min[2]) / 2))}°F`;
+        t4r.innerHTML = `${temperatureConversion(Math.round((response.daily.temperature_2m_max[3] + response.daily.temperature_2m_min[3]) / 2))}°F`;
+        t5r.innerHTML = `${temperatureConversion(Math.round((response.daily.temperature_2m_max[4] + response.daily.temperature_2m_min[4]) / 2))}°F`;
+        t6r.innerHTML = `${temperatureConversion(Math.round((response.daily.temperature_2m_max[5] + response.daily.temperature_2m_min[5]) / 2))}°F`;
+        t7r.innerHTML = `${temperatureConversion(Math.round((response.daily.temperature_2m_max[6] + response.daily.temperature_2m_min[6]) / 2))}°F`;
+    }
 
     f1r.innerHTML = `${response.daily.precipitation_probability_max[0]}%`;
     f2r.innerHTML = `${response.daily.precipitation_probability_max[1]}%`;
@@ -316,6 +351,195 @@ function loadData(loc) {
     f5r.innerHTML = `${response.daily.precipitation_probability_max[4]}%`;
     f6r.innerHTML = `${response.daily.precipitation_probability_max[5]}%`;
     f7r.innerHTML = `${response.daily.precipitation_probability_max[6]}%`;
+    
+    conditionsID = response.daily.weathercode[0];
+    if (conditionsID >= 1 && conditionsID <= 3) f1i.src = 'icons/Sunny.png';
+    if (conditionsID == 4) f1i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 5 && conditionsID <= 13) f1i.src = 'icons/Fog.png';
+    if (conditionsID == 14) f1i.src = 'icons/Lightning.png';
+    if (conditionsID >= 15 && conditionsID <= 17) f1i.src = 'icons/Rain.png';
+    if (conditionsID == 18) f1i.src = 'icons/Lightning.png';
+    if (conditionsID == 19) f1i.src = 'icons/Wind.png';
+    if (conditionsID == 20) f1i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 21 && conditionsID <= 22) f1i.src = 'icons/Rain.png';
+    if (conditionsID == 23) f1i.src = 'icons/Snow.png';
+    if (conditionsID == 24) f1i.src = 'icons/SnowRain.png';
+    if (conditionsID >= 25 && conditionsID <= 26) f1i.src = 'icons/Rain.png';
+    if (conditionsID >= 27 && conditionsID <= 28) f1i.src = 'icons/Snow.png';
+    if (conditionsID == 29) f1i.src = 'icons/Fog.png';
+    if (conditionsID == 30) f1i.src = 'icons/RainLightning.png';
+    if (conditionsID >= 31 && conditionsID <= 36) f1i.src = 'icons/Fog.png';
+    if (conditionsID >= 37 && conditionsID <= 40) f1i.src = 'icons/Snow.png';
+    if (conditionsID >= 41 && conditionsID <= 50) f1i.src = 'icons/Fog.png';
+    if (conditionsID >= 51 && conditionsID <= 70) f1i.src = 'icons/Rain.png';
+    if (conditionsID >= 71 && conditionsID <= 80) f1i.src = 'icons/Snow.png';
+    if (conditionsID >= 81 && conditionsID <= 83) f1i.src = 'icons/Rain.png';
+    if (conditionsID >= 84 && conditionsID <= 91) f1i.src = 'icons/Snow.png';
+    if (conditionsID >= 92 && conditionsID <= 93) f1i.src = 'icons/Rain.png';
+    if (conditionsID >= 94 && conditionsID <= 95) f1i.src = 'icons/Snow.png';
+    if (conditionsID >= 96 && conditionsID <= 100) f1i.src = 'icons/RainLightning.png';
+    
+    conditionsID = response.daily.weathercode[1];
+    if (conditionsID >= 1 && conditionsID <= 3) f2i.src = 'icons/Sunny.png';
+    if (conditionsID == 4) f2i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 5 && conditionsID <= 13) f2i.src = 'icons/Fog.png';
+    if (conditionsID == 14) f2i.src = 'icons/Lightning.png';
+    if (conditionsID >= 15 && conditionsID <= 17) f2i.src = 'icons/Rain.png';
+    if (conditionsID == 18) f2i.src = 'icons/Lightning.png';
+    if (conditionsID == 19) f2i.src = 'icons/Wind.png';
+    if (conditionsID == 20) f2i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 21 && conditionsID <= 22) f2i.src = 'icons/Rain.png';
+    if (conditionsID == 23) f2i.src = 'icons/Snow.png';
+    if (conditionsID == 24) f2i.src = 'icons/SnowRain.png';
+    if (conditionsID >= 25 && conditionsID <= 26) f2i.src = 'icons/Rain.png';
+    if (conditionsID >= 27 && conditionsID <= 28) f2i.src = 'icons/Snow.png';
+    if (conditionsID == 29) f2i.src = 'icons/Fog.png';
+    if (conditionsID == 30) f2i.src = 'icons/RainLightning.png';
+    if (conditionsID >= 31 && conditionsID <= 36) f2i.src = 'icons/Fog.png';
+    if (conditionsID >= 37 && conditionsID <= 40) f2i.src = 'icons/Snow.png';
+    if (conditionsID >= 41 && conditionsID <= 50) f2i.src = 'icons/Fog.png';
+    if (conditionsID >= 51 && conditionsID <= 70) f2i.src = 'icons/Rain.png';
+    if (conditionsID >= 71 && conditionsID <= 80) f2i.src = 'icons/Snow.png';
+    if (conditionsID >= 81 && conditionsID <= 83) f2i.src = 'icons/Rain.png';
+    if (conditionsID >= 84 && conditionsID <= 91) f2i.src = 'icons/Snow.png';
+    if (conditionsID >= 92 && conditionsID <= 93) f2i.src = 'icons/Rain.png';
+    if (conditionsID >= 94 && conditionsID <= 95) f2i.src = 'icons/Snow.png';
+    if (conditionsID >= 96 && conditionsID <= 100) f2i.src = 'icons/RainLightning.png';
+    
+    conditionsID = response.daily.weathercode[2];
+    if (conditionsID >= 1 && conditionsID <= 3) f3i.src = 'icons/Sunny.png';
+    if (conditionsID == 4) f3i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 5 && conditionsID <= 13) f3i.src = 'icons/Fog.png';
+    if (conditionsID == 14) f3i.src = 'icons/Lightning.png';
+    if (conditionsID >= 15 && conditionsID <= 17) f3i.src = 'icons/Rain.png';
+    if (conditionsID == 18) f3i.src = 'icons/Lightning.png';
+    if (conditionsID == 19) f3i.src = 'icons/Wind.png';
+    if (conditionsID == 20) f3i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 21 && conditionsID <= 22) f3i.src = 'icons/Rain.png';
+    if (conditionsID == 23) f3i.src = 'icons/Snow.png';
+    if (conditionsID == 24) f3i.src = 'icons/SnowRain.png';
+    if (conditionsID >= 25 && conditionsID <= 26) f3i.src = 'icons/Rain.png';
+    if (conditionsID >= 27 && conditionsID <= 28) f3i.src = 'icons/Snow.png';
+    if (conditionsID == 29) f3i.src = 'icons/Fog.png';
+    if (conditionsID == 30) f3i.src = 'icons/RainLightning.png';
+    if (conditionsID >= 31 && conditionsID <= 36) f3i.src = 'icons/Fog.png';
+    if (conditionsID >= 37 && conditionsID <= 40) f3i.src = 'icons/Snow.png';
+    if (conditionsID >= 41 && conditionsID <= 50) f3i.src = 'icons/Fog.png';
+    if (conditionsID >= 51 && conditionsID <= 70) f3i.src = 'icons/Rain.png';
+    if (conditionsID >= 71 && conditionsID <= 80) f3i.src = 'icons/Snow.png';
+    if (conditionsID >= 81 && conditionsID <= 83) f3i.src = 'icons/Rain.png';
+    if (conditionsID >= 84 && conditionsID <= 91) f3i.src = 'icons/Snow.png';
+    if (conditionsID >= 92 && conditionsID <= 93) f3i.src = 'icons/Rain.png';
+    if (conditionsID >= 94 && conditionsID <= 95) f3i.src = 'icons/Snow.png';
+    if (conditionsID >= 96 && conditionsID <= 100) f3i.src = 'icons/RainLightning.png';
+    
+    conditionsID = response.daily.weathercode[3];
+    if (conditionsID >= 1 && conditionsID <= 3) f4i.src = 'icons/Sunny.png';
+    if (conditionsID == 4) f4i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 5 && conditionsID <= 13) f4i.src = 'icons/Fog.png';
+    if (conditionsID == 14) f4i.src = 'icons/Lightning.png';
+    if (conditionsID >= 15 && conditionsID <= 17) f4i.src = 'icons/Rain.png';
+    if (conditionsID == 18) f4i.src = 'icons/Lightning.png';
+    if (conditionsID == 19) f4i.src = 'icons/Wind.png';
+    if (conditionsID == 20) f4i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 21 && conditionsID <= 22) f4i.src = 'icons/Rain.png';
+    if (conditionsID == 23) f4i.src = 'icons/Snow.png';
+    if (conditionsID == 24) f4i.src = 'icons/SnowRain.png';
+    if (conditionsID >= 25 && conditionsID <= 26) f4i.src = 'icons/Rain.png';
+    if (conditionsID >= 27 && conditionsID <= 28) f4i.src = 'icons/Snow.png';
+    if (conditionsID == 29) f4i.src = 'icons/Fog.png';
+    if (conditionsID == 30) f4i.src = 'icons/RainLightning.png';
+    if (conditionsID >= 31 && conditionsID <= 36) f4i.src = 'icons/Fog.png';
+    if (conditionsID >= 37 && conditionsID <= 40) f4i.src = 'icons/Snow.png';
+    if (conditionsID >= 41 && conditionsID <= 50) f4i.src = 'icons/Fog.png';
+    if (conditionsID >= 51 && conditionsID <= 70) f4i.src = 'icons/Rain.png';
+    if (conditionsID >= 71 && conditionsID <= 80) f4i.src = 'icons/Snow.png';
+    if (conditionsID >= 81 && conditionsID <= 83) f4i.src = 'icons/Rain.png';
+    if (conditionsID >= 84 && conditionsID <= 91) f4i.src = 'icons/Snow.png';
+    if (conditionsID >= 92 && conditionsID <= 93) f4i.src = 'icons/Rain.png';
+    if (conditionsID >= 94 && conditionsID <= 95) f4i.src = 'icons/Snow.png';
+    if (conditionsID >= 96 && conditionsID <= 100) f4i.src = 'icons/RainLightning.png';
+    
+    conditionsID = response.daily.weathercode[4];
+    if (conditionsID >= 1 && conditionsID <= 3) f5i.src = 'icons/Sunny.png';
+    if (conditionsID == 4) f5i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 5 && conditionsID <= 13) f5i.src = 'icons/Fog.png';
+    if (conditionsID == 14) f5i.src = 'icons/Lightning.png';
+    if (conditionsID >= 15 && conditionsID <= 17) f5i.src = 'icons/Rain.png';
+    if (conditionsID == 18) f5i.src = 'icons/Lightning.png';
+    if (conditionsID == 19) f5i.src = 'icons/Wind.png';
+    if (conditionsID == 20) f5i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 21 && conditionsID <= 22) f5i.src = 'icons/Rain.png';
+    if (conditionsID == 23) f5i.src = 'icons/Snow.png';
+    if (conditionsID == 24) f5i.src = 'icons/SnowRain.png';
+    if (conditionsID >= 25 && conditionsID <= 26) f5i.src = 'icons/Rain.png';
+    if (conditionsID >= 27 && conditionsID <= 28) f5i.src = 'icons/Snow.png';
+    if (conditionsID == 29) f5i.src = 'icons/Fog.png';
+    if (conditionsID == 30) f5i.src = 'icons/RainLightning.png';
+    if (conditionsID >= 31 && conditionsID <= 36) f5i.src = 'icons/Fog.png';
+    if (conditionsID >= 37 && conditionsID <= 40) f5i.src = 'icons/Snow.png';
+    if (conditionsID >= 41 && conditionsID <= 50) f5i.src = 'icons/Fog.png';
+    if (conditionsID >= 51 && conditionsID <= 70) f5i.src = 'icons/Rain.png';
+    if (conditionsID >= 71 && conditionsID <= 80) f5i.src = 'icons/Snow.png';
+    if (conditionsID >= 81 && conditionsID <= 83) f5i.src = 'icons/Rain.png';
+    if (conditionsID >= 84 && conditionsID <= 91) f5i.src = 'icons/Snow.png';
+    if (conditionsID >= 92 && conditionsID <= 93) f5i.src = 'icons/Rain.png';
+    if (conditionsID >= 94 && conditionsID <= 95) f5i.src = 'icons/Snow.png';
+    if (conditionsID >= 96 && conditionsID <= 100) f5i.src = 'icons/RainLightning.png';
+    
+    conditionsID = response.daily.weathercode[5];
+    if (conditionsID >= 1 && conditionsID <= 3) f6i.src = 'icons/Sunny.png';
+    if (conditionsID == 4) f6i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 5 && conditionsID <= 13) f6i.src = 'icons/Fog.png';
+    if (conditionsID == 14) f6i.src = 'icons/Lightning.png';
+    if (conditionsID >= 15 && conditionsID <= 17) f6i.src = 'icons/Rain.png';
+    if (conditionsID == 18) f6i.src = 'icons/Lightning.png';
+    if (conditionsID == 19) f6i.src = 'icons/Wind.png';
+    if (conditionsID == 20) f6i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 21 && conditionsID <= 22) f6i.src = 'icons/Rain.png';
+    if (conditionsID == 23) f6i.src = 'icons/Snow.png';
+    if (conditionsID == 24) f6i.src = 'icons/SnowRain.png';
+    if (conditionsID >= 25 && conditionsID <= 26) f6i.src = 'icons/Rain.png';
+    if (conditionsID >= 27 && conditionsID <= 28) f6i.src = 'icons/Snow.png';
+    if (conditionsID == 29) f6i.src = 'icons/Fog.png';
+    if (conditionsID == 30) f6i.src = 'icons/RainLightning.png';
+    if (conditionsID >= 31 && conditionsID <= 36) f6i.src = 'icons/Fog.png';
+    if (conditionsID >= 37 && conditionsID <= 40) f6i.src = 'icons/Snow.png';
+    if (conditionsID >= 41 && conditionsID <= 50) f6i.src = 'icons/Fog.png';
+    if (conditionsID >= 51 && conditionsID <= 70) f6i.src = 'icons/Rain.png';
+    if (conditionsID >= 71 && conditionsID <= 80) f6i.src = 'icons/Snow.png';
+    if (conditionsID >= 81 && conditionsID <= 83) f6i.src = 'icons/Rain.png';
+    if (conditionsID >= 84 && conditionsID <= 91) f6i.src = 'icons/Snow.png';
+    if (conditionsID >= 92 && conditionsID <= 93) f6i.src = 'icons/Rain.png';
+    if (conditionsID >= 94 && conditionsID <= 95) f6i.src = 'icons/Snow.png';
+    if (conditionsID >= 96 && conditionsID <= 100) f6i.src = 'icons/RainLightning.png';
+    
+    conditionsID = response.daily.weathercode[5];
+    if (conditionsID >= 1 && conditionsID <= 3) f7i.src = 'icons/Sunny.png';
+    if (conditionsID == 4) f7i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 5 && conditionsID <= 13) f7i.src = 'icons/Fog.png';
+    if (conditionsID == 14) f7i.src = 'icons/Lightning.png';
+    if (conditionsID >= 15 && conditionsID <= 17) f7i.src = 'icons/Rain.png';
+    if (conditionsID == 18) f7i.src = 'icons/Lightning.png';
+    if (conditionsID == 19) f7i.src = 'icons/Wind.png';
+    if (conditionsID == 20) f7i.src = 'icons/Cloudy.png';
+    if (conditionsID >= 21 && conditionsID <= 22) f7i.src = 'icons/Rain.png';
+    if (conditionsID == 23) f7i.src = 'icons/Snow.png';
+    if (conditionsID == 24) f7i.src = 'icons/SnowRain.png';
+    if (conditionsID >= 25 && conditionsID <= 26) f7i.src = 'icons/Rain.png';
+    if (conditionsID >= 27 && conditionsID <= 28) f7i.src = 'icons/Snow.png';
+    if (conditionsID == 29) f7i.src = 'icons/Fog.png';
+    if (conditionsID == 30) f7i.src = 'icons/RainLightning.png';
+    if (conditionsID >= 31 && conditionsID <= 36) f7i.src = 'icons/Fog.png';
+    if (conditionsID >= 37 && conditionsID <= 40) f7i.src = 'icons/Snow.png';
+    if (conditionsID >= 41 && conditionsID <= 50) f7i.src = 'icons/Fog.png';
+    if (conditionsID >= 51 && conditionsID <= 70) f7i.src = 'icons/Rain.png';
+    if (conditionsID >= 71 && conditionsID <= 80) f7i.src = 'icons/Snow.png';
+    if (conditionsID >= 81 && conditionsID <= 83) f7i.src = 'icons/Rain.png';
+    if (conditionsID >= 84 && conditionsID <= 91) f7i.src = 'icons/Snow.png';
+    if (conditionsID >= 92 && conditionsID <= 93) f7i.src = 'icons/Rain.png';
+    if (conditionsID >= 94 && conditionsID <= 95) f7i.src = 'icons/Snow.png';
+    if (conditionsID >= 96 && conditionsID <= 100) f7i.src = 'icons/RainLightning.png';
 
     url = `https://nominatim.openstreetmap.org/reverse?lat=${loc[0]}&lon=${loc[1]}&<params>`;
     xmlHttp = new XMLHttpRequest();
@@ -367,7 +591,19 @@ function openforecast() {
     document.getElementById("forecastbox").style.display = "inline";
 }
 
-// Number clamping
+// Math stuff
 function clamp(number, min, max) {
     return Math.max(min, Math.min(number, max));
+}
+
+function temperatureConversion(d) {
+    return Math.round(((d * 9 / 5) + 32) * 10) / 10;
+}
+
+function kmtm(km) {
+    return Math.round((km * 0.621371) * 10) / 10;
+}
+
+function mmtin(mm) {
+    return Math.round((mm / 25.4) * 10) / 10;
 }
