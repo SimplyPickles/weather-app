@@ -207,12 +207,12 @@ if (navigator.geolocation) {
             map.invalidateSize();
         }, 100);
     });
-} 
+}
 
 // Load weather data
 function loadData(loc) {
     let url = `https://api.open-meteo.com/v1/forecast?latitude=${loc[0]}&longitude=${loc[1]}&hourly=temperature_2m,relativehumidity_2m,dewpoint_2m,apparent_temperature,precipitation_probability,precipitation,rain,snowfall,weathercode,visibility,windspeed_10m,winddirection_10m,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max&current_weather=true&timezone=auto`;
-    let xmlHttp = new XMLHttpRequest(); 
+    let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, false);
     xmlHttp.send(null);
     let response = JSON.parse(xmlHttp.responseText);
@@ -241,28 +241,31 @@ function loadData(loc) {
     conditions.innerHTML = `${codes[response.daily.weathercode[0].toString()]}`;
     let conditionsID = response.daily.weathercode[0];
 
-    if (conditionsID >= 1 && conditionsID <= 3) conditionsimg.src = "icons/Sunny.png";
-    if (conditionsID == 4) conditionsimg.src = "icons/Cloudy.png";
-    if (conditionsID >= 5 && conditionsID <= 13) conditionsimg.src = "icons/Fog.png";
-    if (conditionsID == 14) conditionsimg.src = "icons/RainLightning.png";
-    if (conditionsID >= 15 && conditionsID <= 18) conditionsimg.src = "icons/Rain.png";
-    if (conditionsID == 19) conditionsimg.src = "icons/wind.png";
-    if (conditionsID == 20) conditionsimg.src = "icons/Cloudy.png";
-    if (conditionsID >= 21 && conditionsID <= 22) conditionsimg.src = "icons/Rain.png";
-    if (conditionsID == 23) conditionsimg.src = "icons/CloudyWind.png";
-    if (conditionsID == 24) conditionsimg.src = "icons/SnowRain.png";
-    if (conditionsID >= 25 && conditionsID <= 26) conditionsimg.src = "icons/Rain.png";
-    if (conditionsID >= 27 && conditionsID <= 28) conditionsimg.src = "icons/Snow.png";
-    if (conditionsID == 29) conditionsimg.src = "icons/Fog.png";
-    if (conditionsID == 30) conditionsimg.src = "icons/Lightning.png";
-    if (conditionsID >= 31 && conditionsID <= 36) conditionsimg.src = "icons/Fog.png";
-    if (conditionsID >= 37 && conditionsID <= 40) conditionsimg.src = "icons/Snow.png";
-    if (conditionsID >= 41 && conditionsID <= 50) conditionsimg.src = "icons/Fog.png";
-    if (conditionsID >= 51 && conditionsID <= 70) conditionsimg.src = "icons/Rain.png";
-    if (conditionsID >= 71 && conditionsID <= 91) conditionsimg.src = "icons/Snow.png";
-    if (conditionsID >= 92 && conditionsID <= 93) conditionsimg.src = "icons/Rain.png";
-    if (conditionsID >= 94 && conditionsID <= 95) conditionsimg.src = "icons/Snow.png";
-    if (conditionsID >= 95 && conditionsID <= 100) conditionsimg.src = "icons/RainLightning.png";
+    if (conditionsID >= 1 && conditionsID <= 3) conditionsimg.src = 'icons/Sunny.png';
+    if (conditionsID == 4) conditionsimg.src = 'icons/Cloudy.png';
+    if (conditionsID >= 5 && conditionsID <= 13) conditionsimg.src = 'icons/Fog.png';
+    if (conditionsID == 14) conditionsimg.src = 'icons/Lightning.png';
+    if (conditionsID >= 15 && conditionsID <= 17) conditionsimg.src = 'icons/Rain.png';
+    if (conditionsID == 18) conditionsimg.src = 'icons/Lightning.png';
+    if (conditionsID == 19) conditionsimg.src = 'icons/Wind.png';
+    if (conditionsID == 20) conditionsimg.src = 'icons/Cloudy.png';
+    if (conditionsID >= 21 && conditionsID <= 22) conditionsimg.src = 'icons/Rain.png';
+    if (conditionsID == 23) conditionsimg.src = 'icons/Snow.png';
+    if (conditionsID == 24) conditionsimg.src = 'icons/SnowRain.png';
+    if (conditionsID >= 25 && conditionsID <= 26) conditionsimg.src = 'icons/Rain.png';
+    if (conditionsID >= 27 && conditionsID <= 28) conditionsimg.src = 'icons/Snow.png';
+    if (conditionsID == 29) conditionsimg.src = 'icons/Fog.png';
+    if (conditionsID == 30) conditionsimg.src = 'icons/RainLightning.png';
+    if (conditionsID >= 31 && conditionsID <= 36) conditionsimg.src = 'icons/Fog.png';
+    if (conditionsID >= 37 && conditionsID <= 40) conditionsimg.src = 'icons/Snow.png';
+    if (conditionsID >= 41 && conditionsID <= 50) conditionsimg.src = 'icons/Fog.png';
+    if (conditionsID >= 51 && conditionsID <= 70) conditionsimg.src = 'icons/Rain.png';
+    if (conditionsID >= 71 && conditionsID <= 80) conditionsimg.src = 'icons/Snow.png';
+    if (conditionsID >= 81 && conditionsID <= 83) conditionsimg.src = 'icons/Rain.png';
+    if (conditionsID >= 84 && conditionsID <= 91) conditionsimg.src = 'icons/Snow.png';
+    if (conditionsID >= 92 && conditionsID <= 93) conditionsimg.src = 'icons/Rain.png';
+    if (conditionsID >= 94 && conditionsID <= 95) conditionsimg.src = 'icons/Snow.png';
+    if (conditionsID >= 96 && conditionsID <= 100) conditionsimg.src = 'icons/RainLightning.png';
 
     url = `https://api.open-meteo.com/v1/forecast?latitude=${loc[0]}&longitude=${loc[1]}&current=precipitation&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max,windspeed_10m_max&timezone=auto`;
     xmlHttp = new XMLHttpRequest();
