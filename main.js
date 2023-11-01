@@ -181,45 +181,46 @@ let loc = [0, 0];
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
         loc = [clamp(position.coords.latitude, -89, 89), clamp(position.coords.longitude, -179, 179)];
-        loadData(loc);
-
-        map = L.map('mapbox', {
-            center: loc,
-            zoom: 15
-        }).setView(new L.LatLng(loc[0], loc[1]), 10);
-        setTimeout(function() { map.invalidateSize(true); }, 100);
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        let marker = L.marker(loc).addTo(map);
-        map.on('click', function(e) {
-            if (marker) map.removeLayer(marker);
-            
-            marker = L.marker(e.latlng).addTo(map);
-
-            loc = [clamp(e.latlng.lat, -89, 89), clamp(e.latlng.lng, -179, 179)];
-            loadData(loc);
-        });
-
-        let searchControl = new L.esri.Controls.Geosearch().addTo(map);
-        let results = new L.LayerGroup().addTo(map);
-
-        searchControl.on('results', function(data){
-            results.clearLayers();
-            loadData([clamp(data.results[0].latlng.lat, -89, 89), clamp(data.results[0].latlng.lng, -179, 179)]);
-            
-            for (let i = data.results.length - 1; i >= 0; i--) {
-                results.addLayer(L.marker(data.results[i].latlng));
-            }
-        });
-
-        setInterval(function () {
-            map.invalidateSize();
-        }, 100);
     });
+} else {
+    loc = [0, 0];
 }
+
+loadData(loc);
+
+map = L.map('mapbox', {
+    center: loc,
+    zoom: 15
+}).setView(new L.LatLng(loc[0], loc[1]), 10);
+
+setTimeout(function() { map.invalidateSize(true); }, 100);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+let marker = L.marker(loc).addTo(map);
+map.on('click', function(e) {
+    if (marker) map.removeLayer(marker);
+    
+    marker = L.marker(e.latlng).addTo(map);
+    loc = [clamp(e.latlng.lat, -89, 89), clamp(e.latlng.lng, -179, 179)];
+    loadData(loc);
+});
+
+let searchControl = new L.esri.Controls.Geosearch().addTo(map);
+let results = new L.LayerGroup().addTo(map);
+searchControl.on('results', function(data){
+    results.clearLayers();
+    loadData([clamp(data.results[0].latlng.lat, -89, 89), clamp(data.results[0].latlng.lng, -179, 179)]);
+    
+    for (let i = data.results.length - 1; i >= 0; i--) {
+        results.addLayer(L.marker(data.results[i].latlng));
+    }
+});
+
+setInterval(function () {
+    map.invalidateSize();
+}, 100);
 
 // Load weather data
 function loadData(loc) {
